@@ -1,4 +1,4 @@
-package ru.netris.agregator.exception;
+package ru.agregator.exception;
 
 public class EmptyAggregateException extends Exception {
 }

@@ -1,4 +1,4 @@
-package ru.netris.agregator.components;
+package ru.agregator.components;
 
 public class VideoSource {
     private String urlType;

@@ -1,8 +1,8 @@
-package ru.netris.aggregator.mock;
+package ru.aggregator.mock;
 
 import org.mockito.Mockito;
-import ru.netris.agregator.components.VideoToken;
-import ru.netris.agregator.loaders.VideoTokenLoader;
+import ru.agregator.components.VideoToken;
+import ru.agregator.loaders.VideoTokenLoader;
 
 public class VideoTokenLoaderMock {
     public static VideoTokenLoader create() {

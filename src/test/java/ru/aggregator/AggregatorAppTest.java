@@ -1,4 +1,4 @@
-package ru.netris.aggregator;
+package ru.aggregator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Import;
-import ru.netris.agregator.AggregatorApp;
+import ru.agregator.AggregatorApp;
 
 import java.io.IOException;
 import java.nio.file.Paths;

@@ -1,10 +1,10 @@
-package ru.netris.agregator.services;
+package ru.agregator.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
-import ru.netris.agregator.components.AggregateData;
-import ru.netris.agregator.exception.EmptyAggregateException;
+import ru.agregator.components.AggregateData;
+import ru.agregator.exception.EmptyAggregateException;
 
 @Service
 public class AggregateDataService {

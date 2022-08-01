@@ -1,8 +1,8 @@
-package ru.netris.aggregator.mock;
+package ru.aggregator.mock;
 
 import org.mockito.Mockito;
-import ru.netris.agregator.components.VideoSource;
-import ru.netris.agregator.loaders.VideoSourceLoader;
+import ru.agregator.components.VideoSource;
+import ru.agregator.loaders.VideoSourceLoader;
 
 public class VideoSourceLoaderMock {
     public static VideoSourceLoader create() {

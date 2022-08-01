@@ -1,8 +1,8 @@
-package ru.netris.agregator.loaders;
+package ru.agregator.loaders;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.netris.agregator.components.VideoSource;
+import ru.agregator.components.VideoSource;
 
 @Service
 public class VideoSourceLoader {

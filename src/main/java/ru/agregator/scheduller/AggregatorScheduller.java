@@ -1,16 +1,16 @@
-package ru.netris.agregator.scheduller;
+package ru.agregator.scheduller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.netris.agregator.components.AggregateData;
-import ru.netris.agregator.components.VideoInfo;
-import ru.netris.agregator.components.VideoSource;
-import ru.netris.agregator.components.VideoToken;
-import ru.netris.agregator.loaders.VideoInfoLoader;
-import ru.netris.agregator.loaders.VideoSourceLoader;
-import ru.netris.agregator.loaders.VideoTokenLoader;
-import ru.netris.agregator.services.AggregateDataService;
+import ru.agregator.components.VideoInfo;
+import ru.agregator.loaders.VideoInfoLoader;
+import ru.agregator.loaders.VideoSourceLoader;
+import ru.agregator.services.AggregateDataService;
+import ru.agregator.components.AggregateData;
+import ru.agregator.components.VideoSource;
+import ru.agregator.components.VideoToken;
+import ru.agregator.loaders.VideoTokenLoader;
 
 import javax.annotation.PreDestroy;
 import java.util.List;

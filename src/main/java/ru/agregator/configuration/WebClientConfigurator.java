@@ -1,4 +1,4 @@
-package ru.netris.agregator.configuration;
+package ru.agregator.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

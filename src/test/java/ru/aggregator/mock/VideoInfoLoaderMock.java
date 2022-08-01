@@ -1,8 +1,8 @@
-package ru.netris.aggregator.mock;
+package ru.aggregator.mock;
 
 import org.mockito.Mockito;
-import ru.netris.agregator.components.VideoInfo;
-import ru.netris.agregator.loaders.VideoInfoLoader;
+import ru.agregator.components.VideoInfo;
+import ru.agregator.loaders.VideoInfoLoader;
 
 import java.util.ArrayList;
 import java.util.List;
