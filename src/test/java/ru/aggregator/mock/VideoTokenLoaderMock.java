@@ -4,8 +4,10 @@ import org.mockito.Mockito;
 import ru.agregator.components.VideoToken;
 import ru.agregator.loaders.VideoTokenLoader;
 
+import java.io.IOException;
+
 public class VideoTokenLoaderMock {
-    public static VideoTokenLoader create() {
+    public static VideoTokenLoader create() throws IOException {
         VideoTokenLoader mock = Mockito.mock(VideoTokenLoader.class);
         Mockito.when(mock.load(Mockito.any())).thenReturn(getResultValue());
         return mock;

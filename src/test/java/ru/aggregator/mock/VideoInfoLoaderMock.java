@@ -4,24 +4,24 @@ import org.mockito.Mockito;
 import ru.agregator.components.VideoInfo;
 import ru.agregator.loaders.VideoInfoLoader;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 public class VideoInfoLoaderMock {
-    public static VideoInfoLoader create() {
+    public static VideoInfoLoader create() throws IOException {
         VideoInfoLoader mock = Mockito.mock(VideoInfoLoader.class);
-        Mockito.when(mock.loadVideoCams()).thenReturn(getResultValue());
+        Mockito.when(mock.load()).thenReturn(getResultValue());
         return mock;
     }
 
-    private static List<VideoInfo> getResultValue() {
-        List<VideoInfo> list = new ArrayList<>(0);
+    private static VideoInfo[] getResultValue() {
         VideoInfo videoInfo = new VideoInfo();
         videoInfo.setId(112L);
         videoInfo.setSourceDataUrl("/some_source_data_url");
         videoInfo.setSourceDataUrl("/some_token_data_url");
-        list.add(videoInfo);
-        return list;
+
+        return new VideoInfo[]{
+                videoInfo
+        };
     }
 
 }

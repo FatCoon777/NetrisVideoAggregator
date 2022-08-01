@@ -3,17 +3,17 @@ package ru.agregator.scheduller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.agregator.components.VideoInfo;
-import ru.agregator.loaders.VideoInfoLoader;
-import ru.agregator.loaders.VideoSourceLoader;
-import ru.agregator.services.AggregateDataService;
 import ru.agregator.components.AggregateData;
+import ru.agregator.components.VideoInfo;
 import ru.agregator.components.VideoSource;
 import ru.agregator.components.VideoToken;
+import ru.agregator.loaders.VideoInfoLoader;
+import ru.agregator.loaders.VideoSourceLoader;
 import ru.agregator.loaders.VideoTokenLoader;
+import ru.agregator.services.AggregateDataService;
+import ru.metrics.services.MetricRegistry;
 
 import javax.annotation.PreDestroy;
-import java.util.List;
 import java.util.concurrent.*;
 
 @Service
@@ -26,33 +26,36 @@ public class AggregatorScheduller {
     private final VideoTokenLoader videoTokenLoader;
 
     private final AggregateDataService aggregateDataService;
+    private final MetricRegistry metricRegistry;
 
     public AggregatorScheduller(@Value("${aggregator.poolCount}") Integer poolCount,
                                 @Value("${aggregator.loaders.poolCount}") Integer loadersPoolCount,
                                 VideoInfoLoader videoInfoLoader,
                                 VideoSourceLoader videoSourceLoader,
                                 VideoTokenLoader videoTokenLoader,
-                                AggregateDataService aggregateDataService) {
+                                AggregateDataService aggregateDataService,
+                                MetricRegistry metricRegistry) {
         executor = Executors.newFixedThreadPool(poolCount);
         loadersExecutor = Executors.newFixedThreadPool(loadersPoolCount);
         this.videoInfoLoader = videoInfoLoader;
         this.videoSourceLoader = videoSourceLoader;
         this.videoTokenLoader = videoTokenLoader;
         this.aggregateDataService = aggregateDataService;
+        this.metricRegistry = metricRegistry;
     }
 
 
     @Scheduled(fixedRateString = "${aggregator.delay.period.minutes}", timeUnit = TimeUnit.MINUTES)
     public void schedule() {
         try {
-            List<VideoInfo> videoInfoList = videoInfoLoader.loadVideoCams();
-            final int size = videoInfoList.size();
+            VideoInfo[] videoInfoList = videoInfoLoader.load();
+            final int size = videoInfoList.length;
             aggregateDataService.startBuildingCashe(size);
             final CountDownLatch countDownLatch = new CountDownLatch(size);
             for (int i = 0; i < size; i++) {
                 final int index = i;
-                final VideoInfo videoInfo = videoInfoList.get(index);
-                executor.submit(() -> {
+                final VideoInfo videoInfo = videoInfoList[index];
+                executor.execute(() -> {
                     try {
                         Future<VideoSource> videoSourceFuture = loadersExecutor.submit(() -> videoSourceLoader.load(videoInfo.getSourceDataUrl()));
                         Future<VideoToken> videoTokenFuture = loadersExecutor.submit(() -> videoTokenLoader.load(videoInfo.getTokenDataUrl()));
@@ -70,6 +73,7 @@ public class AggregatorScheduller {
                         aggregateDataService.add(index, aggregateData);
 
                     } catch (Exception e) {
+                        metricRegistry.applayErrorCount();
                         e.printStackTrace();
                     } finally {
                         countDownLatch.countDown();

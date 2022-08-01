@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Import;
-import ru.agregator.AggregatorApp;
+import ru.AggregatorApp;
 
 import java.io.IOException;
 import java.nio.file.Paths;

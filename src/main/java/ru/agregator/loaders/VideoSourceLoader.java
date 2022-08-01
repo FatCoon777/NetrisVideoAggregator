@@ -1,18 +1,19 @@
 package ru.agregator.loaders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.agregator.components.VideoSource;
+import ru.metrics.services.MetricRegistry;
 
 @Service
-public class VideoSourceLoader {
-    private final WebClient webClient;
-
-    public VideoSourceLoader(WebClient webClient) {
-        this.webClient = webClient;
+public class VideoSourceLoader extends BaseLoader<VideoSource> {
+    protected VideoSourceLoader(WebClient webClient, ObjectMapper objectMapper, MetricRegistry metricRegistry) {
+        super(webClient, objectMapper, metricRegistry);
     }
 
-    public VideoSource load(String url) {
-        return webClient.get().uri(url).retrieve().bodyToMono(VideoSource.class).block();
+    @Override
+    protected Class<VideoSource> responseType() {
+        return VideoSource.class;
     }
 }

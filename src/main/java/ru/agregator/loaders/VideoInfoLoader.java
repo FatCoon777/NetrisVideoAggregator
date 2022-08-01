@@ -1,26 +1,32 @@
 package ru.agregator.loaders;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
 import ru.agregator.components.VideoInfo;
+import ru.metrics.services.MetricRegistry;
 
-import java.util.List;
+import java.io.IOException;
 
 @Service
-public class VideoInfoLoader {
-    private final WebClient webClient;
-
+public class VideoInfoLoader extends BaseLoader<VideoInfo[]> {
     private final String url;
 
-    public VideoInfoLoader(WebClient webClient, @Value("${videoCamUrl}") String url) {
-        this.webClient = webClient;
+    protected VideoInfoLoader(WebClient webClient,
+                              ObjectMapper objectMapper,
+                              @Value("${videoCamUrl}") String url,
+                              MetricRegistry metricRegistry) {
+        super(webClient, objectMapper, metricRegistry);
         this.url = url;
     }
 
-    public List<VideoInfo> loadVideoCams() {
-        Flux<VideoInfo> videoCamFlux = webClient.get().uri(url).retrieve().bodyToFlux(VideoInfo.class);
-        return videoCamFlux.collectList().block();
+    @Override
+    protected Class<VideoInfo[]> responseType() {
+        return VideoInfo[].class;
+    }
+
+    public VideoInfo[] load() throws IOException {
+        return load(url);
     }
 }
